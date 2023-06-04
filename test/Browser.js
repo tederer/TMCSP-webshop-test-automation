@@ -1,10 +1,12 @@
-/* global assertNamespace, testing, setTimeout */
+/* global assertNamespace, testing, setTimeout, URL*/
 
 require('./NamespaceUtils.js');
 
 assertNamespace('testing');
 
-testing.Browser = function Browser(testStepTimeoutInMs) {
+testing.Browser = function Browser(testStepTimeoutInMs, optionalWebDriverUrl, optionalWebDriverCapabilities) {
+    const WEB_DRIVER_LOG_LEVEL = 'silent';
+
     const {remote} = require('webdriverio');
 
     if (typeof testStepTimeoutInMs !== 'number') {
@@ -20,10 +22,10 @@ testing.Browser = function Browser(testStepTimeoutInMs) {
                 return;
             }
 
-            const webdriverioConfig = {
-                host:                         'localhost',
+            var webDriverConfig = {
+                hostname:                     'localhost',
                 port:                         4723,
-                logLevel:                     'silent',    // default is 'info'
+                logLevel:                     WEB_DRIVER_LOG_LEVEL,
                 capabilities: {
                     'platformName':           'Linux',
                     'appium:automationName':  'Chromium',
@@ -32,8 +34,21 @@ testing.Browser = function Browser(testStepTimeoutInMs) {
                     'appium:appActivity':     '.Settings'
                 }
             };
-               
-            remote(webdriverioConfig)
+            
+            if ((typeof optionalWebDriverUrl === 'string') && (typeof optionalWebDriverCapabilities === 'object')) {
+                var url = new URL(optionalWebDriverUrl);
+
+                webDriverConfig = {
+                    protocol:     url.protocol.slice(0, url.protocol.length - 1),
+                    hostname:     url.hostname,
+                    port:         Number.parseInt(url.port),
+                    path:         url.pathname,
+                    logLevel:     WEB_DRIVER_LOG_LEVEL, 
+                    capabilities: optionalWebDriverCapabilities
+                };
+            }
+                   
+            remote(webDriverConfig)
                 .then(instance => {
                     browser = instance;
                     resolve(browser);

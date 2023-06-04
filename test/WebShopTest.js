@@ -2,7 +2,7 @@
 
 require('./Browser.js');
 
-const TEST_TIMEOUT_IN_MS        = 10000;
+const TEST_TIMEOUT_IN_MS        = 20000;
 const TESTSTEP_TIMEOUT_IN_MS    = 5000;   // this value should be less than TEST_TIMEOUT_IN_MS to get understandable error messages
 
 describe('WebShop', function() {
