@@ -62,7 +62,21 @@ testing.Browser = function Browser(testStepTimeoutInMs, optionalWebDriverUrl, op
             setTimeout(() => reject(message), testStepTimeoutInMs);
         });
     };
-        
+    
+    var getter = function getter(cssSelector, getterFunctionName) {
+        return new Promise(async (resolve, reject) => {
+            if (browser) {
+                try {
+                    var uiElement = await browser.$(cssSelector);
+                    var value = await uiElement[getterFunctionName](value);
+                    resolve(value);
+                } catch (error) {
+                    reject(error);
+                }
+            }
+        });
+    };
+    
     this.openUrl = async function openUrl(url) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -105,4 +119,37 @@ testing.Browser = function Browser(testStepTimeoutInMs, optionalWebDriverUrl, op
     
         return Promise.race([promise, testStepTimeout('clicking ' + description + ' timed out')]);
     };    
+
+    this.setValue = function setValue(cssSelector, value) {
+        return new Promise(async (resolve, reject) => {
+            if (browser) {
+                try {
+                    var emailInput = await browser.$(cssSelector);
+                    await emailInput.setValue(value);
+                    resolve();
+                } catch (error) {
+                    reject(error);
+                }
+            }
+        });
+    };
+
+    this.getValue = function getValue(cssSelector) {
+        return getter(cssSelector, 'getValue');
+    };
+
+    this.getText = function getText(cssSelector) {
+        return getter(cssSelector, 'getText');
+    };
+
+    this.getInnerHtml = function getInnerHtml(cssSelector) {
+        return getter(cssSelector, 'getHTML');
+    };
+
+    this.pause = function pause(pauseInMs) {
+        return new Promise(async (resolve, reject) => {
+            await browser.pause(pauseInMs);
+            resolve();
+        });
+    };
 };

@@ -1,11 +1,17 @@
 ## installation steps
 
-npm install
-npm i -g appium@next
-npm i -g @appium/types
-appium driver install uiautomator2
+* update google chrome to latest version!
+* `git clone https://github.com/tederer/TMCSP-webshop-test-automation.git`
+* `npm install`
+* `sudo npm i -g appium@next`
+* `sudo npm i -g @appium/types`
+* `appium driver install chromium`
 
-google chrome auf aktuellste version hochziehen!
+## usage
+
+If you want to run the tests locally in your appium, then appium has to be up and running. To start it execute `appium` in a terminal.
+
+To run the tests execute `npm start`.
 
 ## webshop url
 
@@ -18,4 +24,6 @@ http://appium.io/docs/en/2.0/quickstart/uiauto2-driver/
 http://appium.io/docs/en/2.0/quickstart/test-js/
 https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors
 https://webdriver.io/docs/api
+https://webdriver.io/docs/api/expect-webdriverio
 https://mochajs.org/
+https://github.com/Automattic/expect.js
