@@ -61,10 +61,17 @@ testing.Browser = function Browser(testStepTimeoutInMs) {
     };
 
     this.dispose = async function dispose() {  
-        if (browser) {
-            await browser.deleteSession();  
-            browser = undefined;   
-        }
+        return new Promise(async (resolve, reject) => {
+            if (browser) {
+                try {
+                    await browser.deleteSession(); 
+                    browser = undefined;    
+                    resolve();
+                } catch (error) {
+                    reject(error);
+                }
+            }
+        });
     };  
     
     this.click = async function click(cssSelector) {
