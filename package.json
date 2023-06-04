@@ -1,0 +1,34 @@
+{
+    "name": "webshopTestAutomation",
+    "version": "0.0.1",
+    "description": "Etest automation for web shop",
+    "private": true,
+    "author": {
+       "name": "INENP group",
+       "email": "2210781006@fh-burgenland.at"
+    },
+    "licenses": [
+       {
+          "type": "MIT"
+       }
+    ],
+    "dependencies": {
+        "appium": "1.22.3",
+        "webdriverio": "^8.10.7",
+        "mocha": "10.x",
+        "expect.js": "0.x",
+        "grunt": "1.x",
+        "grunt-contrib-jshint": "3.x",
+        "grunt-mocha-test": "0.x"  
+    },
+    "devDependencies": {
+    },
+    "engines": {
+       "node": ">=18.x"
+    },
+    "scripts": {
+       "start": "npm run grunt",
+       "grunt": "./node_modules/.bin/grunt"
+    }
+ }
+ 
