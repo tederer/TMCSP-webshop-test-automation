@@ -1,16 +1,28 @@
-/* global assertNamespace, testing, setTimeout, URL*/
+/* global assertNamespace, testing, setTimeout, URL, process */
 
 require('./NamespaceUtils.js');
 
 assertNamespace('testing');
 
-testing.Browser = function Browser(testStepTimeoutInMs, optionalWebDriverUrl, optionalWebDriverCapabilities) {
+testing.Browser = function Browser(testStepTimeoutInMs) {
     const WEB_DRIVER_LOG_LEVEL = 'silent';
 
     const {remote} = require('webdriverio');
 
     if (typeof testStepTimeoutInMs !== 'number') {
         throw 'argument to Browser constructor must be a number';
+    }
+
+    var optionalWebDriverUrl          = process.env.WEBDRIVERURL;
+    var optionalWebDriverCapabilities = process.env.WEBDRIVERCAPABILITIES;
+    
+    if ((typeof optionalWebDriverUrl === 'string') && (typeof optionalWebDriverCapabilities === 'string')) {
+        try {
+            optionalWebDriverCapabilities = JSON.parse(optionalWebDriverCapabilities);
+        } catch (error) {
+            console.log('failed to parse web driver capabilities: ' + error);
+            optionalWebDriverUrl = undefined;
+        }
     }
 
     var browser;

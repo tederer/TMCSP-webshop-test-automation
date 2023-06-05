@@ -9,6 +9,9 @@ To get the project up and running all you need is an Ubuntu (tested with 22.04.1
 * update google chrome to latest version
 * execute `git clone https://github.com/tederer/TMCSP-webshop-test-automation.git`
 * execute `npm install`
+
+The following steps are necessary if you want to execute the tests on a local Chrome browser instance.
+
 * execute `sudo npm i -g appium@next`
 * execute `sudo npm i -g @appium/types`
 * execute `appium driver install chromium`
@@ -19,6 +22,15 @@ The following steps are necessary to execute the tests on a local Chrome Browser
 
 * start your [Appium](http://appium.io) server by executing `appium` in a separate terminal
 * navigate to the project folder
+* execute `npm start`
+
+## running the tests on a browser hosted by somebody else
+
+The following steps are necessary to execute the tests on a Chrome Browser instance hosted somewhere on the internet (e.g. [headspin](https://www.headspin.io/)).
+
+* navigate to the project folder
+* put the URL of the web driver into the environment variable WEBDRIVERURL
+* put the stringified capabilities object (JSON) of the web driver into the environment variable WEBDRIVERCAPABILITIES
 * execute `npm start`
 
 ## references
