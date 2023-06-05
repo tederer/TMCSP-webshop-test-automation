@@ -1,31 +1,10 @@
 /* global process, setTimeout, setInterval, clearTimeout, clearInterval, before, after, afterEach, testing */
 
 require('./Browser.js');
+const {CSS} = require('./CssSelectors.js');
 
 const TEST_TIMEOUT_IN_MS        = 20000;
 const TESTSTEP_TIMEOUT_IN_MS    = 5000;   // this value should be less than TEST_TIMEOUT_IN_MS to get understandable error messages
-
-// CSS selectors
-const LOGIN_SEND_DATA_BUTTON                    = '.login-button';
-const LOGIN_OPEN_FORM_BUTTON                    = '.ico-login';
-const LOGIN_EMAIL_FIELD                         = '#Email';
-const LOGIN_PASSWORD_FIELD                      = '#Password';
-
-const LOGOUT_BUTTON                             = '.ico-logout';
-
-const ACCOUNT_USERNAME_LINK                     = '.header-links > ul:nth-child(1) > li:nth-child(1) > a:nth-child(1)';
-
-const ACCOUNT_FIRSTNAME_FIELD                   = '#FirstName';
-const ACCOUNT_LASTNAME_FIELD                    = '#LastName';
-const ACCOUNT_EMAIL_FIELD                       = '#Email';
-
-const BOOK_BUTTON                               = '.top-menu > li:nth-child(1) > a:nth-child(1)';
-const BOOK_ADD_COMPUTING_AND_INTERNET_BUTTON    = 'div.item-box:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > div:nth-child(2) > input:nth-child(1)';
-const CART_LINK                                 = '#topcartlink > a:nth-child(1) > span:nth-child(1)';
-const CART_NAME_OF_FIRST_ITEM                   = '.product-name';
-const CART_QUANTITY_ELEMENT                     = '.cart-qty';
-const CART_REMOVE_FIRST_ITEM_CHECKBOX           = '.remove-from-cart > input:nth-child(2)';
-const CART_UPDATE_BUTTON                        = '.update-cart-button';
 
 var browser;
 
@@ -70,21 +49,21 @@ var waitFor = async function waitFor(predicate, errorMessage) {
 };
 
 var clickLoginButton = async function clickLoginButton() {
-    await browser.click(LOGIN_SEND_DATA_BUTTON);
+    await browser.click(CSS.LOGIN_SEND_DATA_BUTTON);
 };
 var saveLogOut = async function saveLogOut() {
     return new Promise(async (resolve, reject) => {
         try {
-            await browser.click(LOGOUT_BUTTON);
+            await browser.click(CSS.LOGOUT_BUTTON);
         } catch (error) {}
         resolve();
     });
 };
 
 var givenUserEnteredNameAndPassword = async function givenUserEnteredNameAndPassword(username, password) {
-    await browser.click(LOGIN_OPEN_FORM_BUTTON);
-    await browser.setValue(LOGIN_EMAIL_FIELD, username);
-    await browser.setValue(LOGIN_PASSWORD_FIELD, password);
+    await browser.click(CSS.LOGIN_OPEN_FORM_BUTTON);
+    await browser.setValue(CSS.LOGIN_EMAIL_FIELD, username);
+    await browser.setValue(CSS.LOGIN_PASSWORD_FIELD, password);
 };
 
 var givenLoggedInUser = async function givenLoggedInUser() {
@@ -93,7 +72,7 @@ var givenLoggedInUser = async function givenLoggedInUser() {
 };
 
 var getNumberOfItemsInCart = async function getNumberOfItemsInCart() {
-    var value = await browser.getInnerHtml(CART_QUANTITY_ELEMENT);
+    var value = await browser.getInnerHtml(CSS.CART_QUANTITY_ELEMENT);
     var startIndex          = value.indexOf('(');
     var endIndex            = value.indexOf(')');
     return Number.parseInt(value.slice(startIndex + 1, endIndex));
@@ -105,24 +84,24 @@ var givenShoppingCartIsEmpty = async function givenShoppingCartIsEmpty() {
         return;
     }
     
-    await browser.click(CART_LINK);
+    await browser.click(CSS.CART_LINK);
     
     while (numberOfItemsInCart > 0) {
         try {
-            await browser.click(CART_REMOVE_FIRST_ITEM_CHECKBOX);
+            await browser.click(CSS.CART_REMOVE_FIRST_ITEM_CHECKBOX);
         } catch (error) {
             await browser.pause(100);
             continue;   // ignoring the error because this error can happen when the UI is slow 
         }
-        await browser.click(CART_UPDATE_BUTTON);
+        await browser.click(CSS.CART_UPDATE_BUTTON);
         numberOfItemsInCart = await getNumberOfItemsInCart();
     }
 };
 
 var givenBookGetsAddedToShoppingCart = async function givenBookGetsAddedToShoppingCart() {
     var cartQuantity = await getNumberOfItemsInCart();
-    await browser.click(BOOK_BUTTON);
-    await browser.click(BOOK_ADD_COMPUTING_AND_INTERNET_BUTTON);
+    await browser.click(CSS.BOOK_BUTTON);
+    await browser.click(CSS.BOOK_ADD_COMPUTING_AND_INTERNET_BUTTON);
     await waitFor(async () => {
         var currentQuantity = await getNumberOfItemsInCart();
         return currentQuantity > cartQuantity;
@@ -134,7 +113,7 @@ var whenLoginButtonGetsClicked = async function whenLoginButtonGetsClicked() {
 };
 
 var whenAccountInfoGetsDisplayed = async function whenAccountInfoGetsDisplayed() {
-    await browser.click(ACCOUNT_USERNAME_LINK);
+    await browser.click(CSS.ACCOUNT_USERNAME_LINK);
 };
 
 var whenBookGetsAddedToShoppingCart = async function whenBookGetsAddedToShoppingCart() {
@@ -147,7 +126,7 @@ var whenShoppingCartGetsCleaned = async function whenShoppingCartGetsCleaned() {
 
 var thenDisplayedUsernameShouldBe = async function thenDisplayedUsernameShouldBe(expectedUsername) {
     await waitFor(async () => {
-        var username = await browser.getText(ACCOUNT_USERNAME_LINK);
+        var username = await browser.getText(CSS.ACCOUNT_USERNAME_LINK);
         return username === expectedUsername; 
     }, 'displaying the username');
 };
@@ -155,9 +134,9 @@ var thenDisplayedUsernameShouldBe = async function thenDisplayedUsernameShouldBe
 var thenAccountInfosShouldBe = async function thenAccountInfosShouldBe(expectedFirstname, expectedLastname, expectedEmail) {
     await waitFor(async () => {
         try {
-            var firstname   = await browser.getValue(ACCOUNT_FIRSTNAME_FIELD);
-            var lastname    = await browser.getValue(ACCOUNT_LASTNAME_FIELD);
-            var email       = await browser.getValue(ACCOUNT_EMAIL_FIELD);
+            var firstname   = await browser.getValue(CSS.ACCOUNT_FIRSTNAME_FIELD);
+            var lastname    = await browser.getValue(CSS.ACCOUNT_LASTNAME_FIELD);
+            var email       = await browser.getValue(CSS.ACCOUNT_EMAIL_FIELD);
             var actual      = firstname + '|' + lastname + '|' + email;
             var expected    = expectedFirstname + '|' + expectedLastname + '|' + expectedEmail;
             return actual === expected;
@@ -168,7 +147,7 @@ var thenAccountInfosShouldBe = async function thenAccountInfosShouldBe(expectedF
 };
 
 var thenTheCartShouldContainOneBook = async function thenTheCartShouldContainOneBook() {
-    await browser.click(CART_LINK);
+    await browser.click(CSS.CART_LINK);
         
     await waitFor(async () => {
         var itemCount = await getNumberOfItemsInCart();
@@ -177,7 +156,7 @@ var thenTheCartShouldContainOneBook = async function thenTheCartShouldContainOne
         }
 
         try {
-            var productName = await browser.getText(CART_NAME_OF_FIRST_ITEM);
+            var productName = await browser.getText(CSS.CART_NAME_OF_FIRST_ITEM);
             return productName === 'Computing and Internet';
         } catch (error) {
             return false;   // ignoring this error because it can happen when the UI is slow.
