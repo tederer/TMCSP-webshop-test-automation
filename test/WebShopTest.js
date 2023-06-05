@@ -1,52 +1,15 @@
 /* global process, setTimeout, setInterval, clearTimeout, clearInterval, before, after, afterEach, testing */
 
-require('./Browser.js');
-const {CSS} = require('./CssSelectors.js');
+const TEST_TIMEOUT_IN_MS     = 20000;
+const TESTSTEP_TIMEOUT_IN_MS = 5000;   // this value should be less than TEST_TIMEOUT_IN_MS to get understandable error messages
 
-const TEST_TIMEOUT_IN_MS        = 20000;
-const TESTSTEP_TIMEOUT_IN_MS    = 5000;   // this value should be less than TEST_TIMEOUT_IN_MS to get understandable error messages
+require('./Browser.js');
+
+const {CSS}             = require('./CssSelectors.js');
+const {createWaitFor}   = require('./Utils.js');
+const waitFor           = createWaitFor(TESTSTEP_TIMEOUT_IN_MS);
 
 var browser;
-
-var waitFor = async function waitFor(predicate, errorMessage) {
-    return new Promise((resolve, reject) => {
-        var timeoutId;
-        var intervalId;
-
-        var cancelInterval = function cancelInterval() {
-            if (intervalId) {
-                clearInterval(intervalId);
-                intervalId = undefined;
-            }
-        };
-
-        var cancelTimeout = function cancelTimeout() {
-            if (timeoutId) {
-                clearTimeout(timeoutId);
-                timeoutId = undefined;
-            }
-        };
-
-        timeoutId = setTimeout(() => {
-            cancelInterval();
-            reject('timed out while waiting for ' + errorMessage);
-        }, TESTSTEP_TIMEOUT_IN_MS);
-
-        intervalId = setInterval(async () => {
-            try {
-                if (await predicate()) {
-                    cancelTimeout();
-                    cancelInterval();
-                    resolve();
-                }
-            } catch (error) {
-                cancelTimeout();
-                cancelInterval();
-                reject(error);
-            }
-        }, 100);
-    });
-};
 
 var clickLoginButton = async function clickLoginButton() {
     await browser.click(CSS.LOGIN_SEND_DATA_BUTTON);
