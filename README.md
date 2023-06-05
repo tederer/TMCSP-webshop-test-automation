@@ -27,3 +27,4 @@ https://webdriver.io/docs/api
 https://webdriver.io/docs/api/expect-webdriverio
 https://mochajs.org/
 https://github.com/Automattic/expect.js
+https://docs.github.com/en/actions/security-guides/encrypted-secrets
