@@ -13,7 +13,6 @@
        }
     ],
     "dependencies": {
-        "appium": "1.22.3",
         "webdriverio": "^8.10.7",
         "mocha": "10.x",
         "expect.js": "0.x",
