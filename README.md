@@ -1,6 +1,8 @@
 # TMCSP-webshop-test-automation
 
-This project contains automated tests for a webpage hosted by Tricentis.
+This project contains automated tests for a demo webpage hosted by Tricentis.
+
+![architecture](images/webTestingArchitecture.jpg)
 
 ## installation
 
