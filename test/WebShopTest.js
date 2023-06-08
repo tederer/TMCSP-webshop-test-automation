@@ -44,4 +44,11 @@ describe('WebShop', function() {
         await steps.whenShoppingCartGetsCleaned();
         await steps.thenTheShoppingShartShouldBeEmpty();
     });
+
+    it('logout', async function() {
+        await steps.givenLoggedInUser();
+        await steps.whenLoggedOutUser();
+        await steps.thenUserShouldbeLoggedOut();
+        await browser.pause(1000);
+    });
 });  

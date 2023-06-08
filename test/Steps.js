@@ -23,10 +23,14 @@ testing.Steps = function Steps(browser, testStepTimeoutInMs) {
         return Number.parseInt(value.slice(startIndex + 1, endIndex));
     };
     
+    var logOut = async function logOut() {
+        await browser.click(CSS.LOGOUT_BUTTON);
+    };
+
     this.saveLogOut = async function saveLogOut() {
         return new Promise(async (resolve, reject) => {
             try {
-                await browser.click(CSS.LOGOUT_BUTTON);
+                await logOut();
             } catch (error) {}
             resolve();
         });
@@ -89,6 +93,10 @@ testing.Steps = function Steps(browser, testStepTimeoutInMs) {
         thisInstance.givenShoppingCartIsEmpty();
     };
     
+    this.whenLoggedOutUser = async function whenLoggedOutUser() {
+        await logOut();
+    };
+    
     this.thenDisplayedUsernameShouldBe = async function thenDisplayedUsernameShouldBe(expectedUsername) {
         await waitFor(async () => {
             var username = await browser.getText(CSS.ACCOUNT_USERNAME_LINK);
@@ -135,4 +143,11 @@ testing.Steps = function Steps(browser, testStepTimeoutInMs) {
             return numberOfItemsInCart === 0;
         }, 'shopping cart gets empty');
     };    
+
+    this.thenUserShouldbeLoggedOut = async function thenUserShouldbeLoggedOut() {
+        await waitFor(async () => {
+            var name = await browser.getText(CSS.LOGIN_OPEN_FORM_BUTTON);
+            return name === 'Log in';
+        }, 'user log out');
+    };
 };
