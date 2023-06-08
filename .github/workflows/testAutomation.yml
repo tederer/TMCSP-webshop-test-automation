@@ -13,3 +13,4 @@ jobs:
         env:
           WEBDRIVERURL: ${{secrets.WEBDRIVERURL}}
           WEBDRIVERCAPABILITIES: ${{secrets.WEBDRIVERCAPABILITIES}}
+          USERPASSWORD: ${{secrets.USERPASSWORD}}

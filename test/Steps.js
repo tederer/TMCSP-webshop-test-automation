@@ -42,8 +42,8 @@ testing.Steps = function Steps(browser, testStepTimeoutInMs) {
         await browser.setValue(CSS.LOGIN_PASSWORD_FIELD, password);
     };
     
-    this.givenLoggedInUser = async function givenLoggedInUser() {
-        await thisInstance.givenUserEnteredNameAndPassword('fhBgld.groupE@tricentis.com', '_GruppeE');
+    this.givenLoggedInUser = async function givenLoggedInUser(password) {
+        await thisInstance.givenUserEnteredNameAndPassword('fhBgld.groupE@tricentis.com', password);
         await clickLoginButton();
     };
     
