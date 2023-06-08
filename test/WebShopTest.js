@@ -49,6 +49,5 @@ describe('WebShop', function() {
         await steps.givenLoggedInUser();
         await steps.whenLoggedOutUser();
         await steps.thenUserShouldbeLoggedOut();
-        await browser.pause(1000);
     });
 });  
