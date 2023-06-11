@@ -28,6 +28,7 @@ The following steps are necessary to execute the tests on a local Chrome Browser
 
 * start your [Appium](http://appium.io) server by executing `appium` in a separate terminal
 * navigate to the project folder
+* put the password of the user, which gets used to interact with the demo webpage, into the environment variable USERPASSWORD
 * execute `npm start`
 
 ## running the tests on a browser hosted by somebody else
@@ -36,6 +37,7 @@ The following steps are necessary to execute the tests on a Chrome Browser insta
 
 * navigate to the project folder
 * put the URL of the web driver into the environment variable WEBDRIVERURL
+* put the password of the user, which gets used to interact with the demo webpage, into the environment variable USERPASSWORD
 * put the stringified capabilities object (JSON) of the web driver into the environment variable WEBDRIVERCAPABILITIES
 * execute `npm start`
 
